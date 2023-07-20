@@ -5,28 +5,43 @@ import mangga from "./img/mangga.png";
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-export default function Hero() {
-  const [inputUser, setInputUser] = useState("");
-  const [inputCom, setInputCom] = useState("");
-  const fruits = ["anggur", "jeruk", "semangka", "mangga"];
-
-  function shuffleArray(array) {
-    const newArray = array.slice(); // Create a copy of the original array
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const randomIndex = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[randomIndex]] = [
-        newArray[randomIndex],
-        newArray[i],
-      ]; // Swap elements
-    }
-    return newArray;
+function shuffleArray(array) {
+  const newArray = array.slice(); // Create a copy of the original array
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[randomIndex]] = [newArray[randomIndex], newArray[i]]; // Swap elements
   }
+  return newArray;
+}
 
-  const fruitsRandom = shuffleArray(fruits);
+export default function Hero() {
+  const [inputUser, setInputUser] = useState("anggur");
+
+  const [inputCom, setInputCom] = useState("anggur");
+  const fruits = ["anggur", "jeruk", "semangka", "mangga"];
 
   function play(event) {
     event.preventDefault();
+    const fruitsRandom = shuffleArray(fruits);
+    setInputCom(fruitsRandom[0]);
   }
+
+  // membuat function untuk mendaptakan value masing masing input
+  function getFruitImage(fruit) {
+    switch (fruit) {
+      case "anggur":
+        return anggur;
+      case "jeruk":
+        return jeruk;
+      case "semangka":
+        return semangka;
+      case "mangga":
+        return mangga;
+      default:
+        return null; // jika tidak ada gambar yang di input
+    }
+  }
+
   return (
     <>
       <div className="bg-purple-600">
@@ -48,14 +63,24 @@ export default function Hero() {
           <div className="flex items-center justify-around">
             <div className="you text-center">
               <span className="text-white font-semibold block">You</span>
-              <img src={anggur} alt="" width="50" height="50" />
+              <img
+                src={getFruitImage(inputUser)}
+                alt=""
+                width="50"
+                height="50"
+              />
             </div>
             <div className="vs">
               <h1 className="font-semibold text-xl text-white">VS</h1>
             </div>
             <div className="com text-center">
               <span className="text-white font-semibold">Com</span>
-              <img src={anggur} alt="" width="50" height="50" />
+              <img
+                src={getFruitImage(inputCom)}
+                alt=""
+                width="50"
+                height="50"
+              />
             </div>
           </div>
         </div>
@@ -78,11 +103,9 @@ export default function Hero() {
               <input
                 type="inputUser"
                 name="inputUser"
-                placeholder=" "
+                placeholder=""
                 autoComplete="off"
-                onChange={function (event) {
-                  setInputUser(event.target.value);
-                }}
+                onChange={(event) => setInputUser(event.target.value)}
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
               />
               <label
