@@ -23,7 +23,7 @@ export default function Hero() {
   const fruits = ["anggur", "jeruk", "semangka", "mangga"];
   const [Point, setPoint] = useState(0);
   const MinimumNominal = 5;
-  const [cash, setCash] = useState(100);
+  const [cash, setCash] = useState(500000);
 
   function play(event) {
     event.preventDefault();

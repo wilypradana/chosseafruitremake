@@ -1,4 +1,5 @@
 import { openSidebar } from "./Handler.js";
+import { Link } from "react-router-dom";
 export default function Navbar({ cash, Point }) {
   return (
     <>
@@ -37,16 +38,22 @@ export default function Navbar({ cash, Point }) {
           <i className="bi bi-house-door-fill"></i>
           <span className="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
         </div>
-        <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-          <i className="bi bi-gift"></i>
-          <span className="text-[15px] ml-4 text-gray-200 font-bold">
-            Reward
-          </span>
-        </div>
-        <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-          <i className="bi bi-coin"></i>
-          <span className="text-[15px] ml-4 text-gray-200 font-bold">Cash</span>
-        </div>
+        <Link to="/Exchange" className="flex items-center">
+          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+            <i className="bi bi-gift"></i>
+            <span className="text-[15px] ml-4 text-gray-200 font-bold">
+              Reward
+            </span>
+          </div>
+        </Link>
+        <Link to="/Exchange" className="flex items-center">
+          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+            <i className="bi bi-coin"></i>
+            <span className="text-[15px] ml-4 text-gray-200 font-bold">
+              Cash
+            </span>
+          </div>
+        </Link>
         <div className="my-4 bg-gray-600 h-[1px]"></div>
 
         <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
