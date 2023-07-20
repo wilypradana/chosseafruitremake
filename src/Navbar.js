@@ -1,5 +1,5 @@
 import { openSidebar } from "./Handler.js";
-export default function Navbar() {
+export default function Navbar({ cash, Point }) {
   return (
     <>
       <div className="bg-purple-800 flex items-center justify-between">
@@ -13,8 +13,10 @@ export default function Navbar() {
       </div>
       <div className="bg-purple-800 flex items-center justify-between p-4">
         <h1 className="font-semibold text-xs text-white">Hi username</h1>
-        <h1 className="font-semibold text-xs text-white">Your cash: 100</h1>
-        <h1 className="font-semibold text-xs text-white">Your Point: 200</h1>
+        <h1 className="font-semibold text-xs text-white">Your cash: {cash}</h1>
+        <h1 className="font-semibold text-xs text-white">
+          Your Point: {Point}
+        </h1>
       </div>
       {/* navbar */}
       <div className="sidebar hidden fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">

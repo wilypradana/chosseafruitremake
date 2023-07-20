@@ -2,7 +2,9 @@ import anggur from "./img/anggur.png";
 import jeruk from "./img/jeruk.png";
 import semangka from "./img/semangka.png";
 import mangga from "./img/mangga.png";
-import React, { useEffect } from "react";
+import Random from "./img/default.jpg";
+import Navbar from "./Navbar";
+
 import { useState } from "react";
 
 function shuffleArray(array) {
@@ -16,14 +18,32 @@ function shuffleArray(array) {
 
 export default function Hero() {
   const [inputUser, setInputUser] = useState("anggur");
-
+  const [InputNominal, setInputNominal] = useState(0);
   const [inputCom, setInputCom] = useState("anggur");
   const fruits = ["anggur", "jeruk", "semangka", "mangga"];
+  const [Point, setPoint] = useState(0);
+  const MinimumNominal = 5;
+  const [cash, setCash] = useState(100);
 
   function play(event) {
     event.preventDefault();
-    const fruitsRandom = shuffleArray(fruits);
-    setInputCom(fruitsRandom[0]);
+
+    if (InputNominal >= MinimumNominal) {
+      const fruitsRandom = shuffleArray(fruits);
+      setInputCom(fruitsRandom[0]);
+      if (inputUser === "anggur" && inputCom === "anggur") {
+        setCash((prevCash) => prevCash * 20);
+      } else if (inputUser === "jeruk" && inputCom === "jeruk") {
+        setCash((prevCash) => prevCash * 20);
+      } else if (inputUser === "semangka" && inputCom === "semangka") {
+        setCash((prevCash) => prevCash * 20);
+      } else if (inputUser === "mangga" && inputCom === "mangga") {
+        setCash((prevCash) => prevCash * 20);
+      } else {
+        setCash((prevCash) => prevCash - InputNominal);
+        setPoint((prevPoint) => prevPoint + 20);
+      }
+    }
   }
 
   // membuat function untuk mendaptakan value masing masing input
@@ -38,12 +58,13 @@ export default function Hero() {
       case "mangga":
         return mangga;
       default:
-        return null; // jika tidak ada gambar yang di input
+        return Random; // jika tidak ada gambar yang di input
     }
   }
 
   return (
     <>
+      <Navbar cash={cash} Point={Point} />
       <div className="bg-purple-600">
         <h1 className="text-center text-white font-bold py-5 px-2">
           Tebak Buah dan dapatkan hadiah
@@ -85,7 +106,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
       <div className="bg-gray-100 p-0 sm:p-12">
         <div className="mx-auto max-w-md px-6 py-12 bg-white border-0 shadow-lg sm:rounded-3xl">
           <h1 className="text-xl font-bold mb-8">
@@ -121,7 +141,7 @@ export default function Hero() {
                 type="number"
                 name="money"
                 placeholder=" "
-                value={onchange}
+                onChange={(event) => setInputNominal(event.target.value)}
                 className="pt-3 pb-2 pl-5 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
               />
               <div className="absolute top-0 left-0 mt-3 ml-1 text-gray-400">
@@ -133,15 +153,15 @@ export default function Hero() {
               >
                 Taruhan
               </label>
-              <span className="text-sm text-red-600 hidden" id="error">
-                Amount is required
-              </span>
             </div>
-
+            <span className="text-sm text-red-600 ">
+              Tombol warna merah berarti taruhannya kurang
+            </span>
             <button
               id="button"
               type="submit"
-              className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-pink-500 hover:bg-pink-600 hover:shadow-lg focus:outline-none"
+              disabled={InputNominal < MinimumNominal}
+              className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blue-500 hover:bg-pink-600 hover:shadow-lg focus:outline-none disabled:bg-red-600"
             >
               Main
             </button>
