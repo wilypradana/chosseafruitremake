@@ -15,7 +15,7 @@ export default function Hero() {
   const fruits = ["anggur", "jeruk", "semangka", "mangga"];
   const [Point, setPoint] = useState(0);
   const minimumNominal = 5;
-  const [cash, setCash] = useState(50);
+  const [cash, setCash] = useState(500);
   function shuffleArray(array) {
     // Fisher-Yates shuffle algorithm
     for (let i = array.length - 1; i > 0; i--) {
