@@ -3,50 +3,52 @@ import jeruk from "./img/jeruk.png";
 import semangka from "./img/semangka.png";
 import mangga from "./img/mangga.png";
 import Random from "./img/default.jpg";
+
 import Navbar from "./Navbar";
 
 import { useState } from "react";
 
-function shuffleArray(array) {
-  const newArray = array.slice(); // Create a copy of the original array
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[randomIndex]] = [newArray[randomIndex], newArray[i]]; // Swap elements
-  }
-  return newArray;
-}
-
 export default function Hero() {
-  const [inputUser, setInputUser] = useState("anggur");
-  const [InputNominal, setInputNominal] = useState(0);
-  const [inputCom, setInputCom] = useState("anggur");
+  const [inputUser, setInputUser] = useState(null);
+  const [inputNominal, setInputNominal] = useState(0);
+  const [inputCom, setInputCom] = useState(null);
   const fruits = ["anggur", "jeruk", "semangka", "mangga"];
   const [Point, setPoint] = useState(0);
-  const MinimumNominal = 5;
-  const [cash, setCash] = useState(500000);
-
+  const minimumNominal = 5;
+  const [cash, setCash] = useState(50);
+  function shuffleArray(array) {
+    // Fisher-Yates shuffle algorithm
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
   function play(event) {
     event.preventDefault();
-
-    if (InputNominal >= MinimumNominal) {
+    if (inputNominal >= minimumNominal) {
+      if (!inputUser) {
+        alert("Masukkan pilihan buah sebelum melakukan taruhan.");
+        return;
+      }
       const fruitsRandom = shuffleArray(fruits);
-      setInputCom(fruitsRandom[0]);
-      if (inputUser === "anggur" && inputCom === "anggur") {
-        setCash((prevCash) => prevCash * 20);
-      } else if (inputUser === "jeruk" && inputCom === "jeruk") {
-        setCash((prevCash) => prevCash * 20);
-      } else if (inputUser === "semangka" && inputCom === "semangka") {
-        setCash((prevCash) => prevCash * 20);
-      } else if (inputUser === "mangga" && inputCom === "mangga") {
-        setCash((prevCash) => prevCash * 20);
+      setInputCom(fruitsRandom[0]); // Set the inputCom to a random element from fruits
+      if (inputUser === inputCom) {
+        setCash((prevCash) => prevCash + inputNominal * 20);
       } else {
-        setCash((prevCash) => prevCash - InputNominal);
+        // Ensure cash doesn't go below 0 after subtracting the bet amount
+        setCash((prevCash) => Math.max(prevCash - inputNominal * 2, 0));
         setPoint((prevPoint) => prevPoint + 20);
       }
+      setTimeout(() => {
+        setInputCom("");
+        setInputUser("");
+      }, 1000);
+    } else {
+      alert("Taruhan harus lebih besar atau sama dengan " + minimumNominal);
     }
   }
 
-  // membuat function untuk mendaptakan value masing masing input
   function getFruitImage(fruit) {
     switch (fruit) {
       case "anggur":
@@ -61,6 +63,7 @@ export default function Hero() {
         return Random; // jika tidak ada gambar yang di input
     }
   }
+  // membuat function untuk mendaptakan value masing masing input
 
   return (
     <>
@@ -83,23 +86,27 @@ export default function Hero() {
         <div className="subHasil bg-[#33085E] p-7">
           <div className="flex items-center justify-around">
             <div className="you text-center">
-              <span className="text-white font-semibold block">You</span>
+              <span className="text-white font-semibold block">
+                Pilihan Kamu
+              </span>
               <img
                 src={getFruitImage(inputUser)}
                 alt=""
                 width="50"
                 height="50"
+                className="mt-4 mx-auto"
               />
             </div>
             <div className="vs">
-              <h1 className="font-semibold text-xl text-white">VS</h1>
+              <h1 className="font-semibold text-xl text-white">Dan</h1>
             </div>
             <div className="com text-center">
-              <span className="text-white font-semibold">Com</span>
+              <span className="text-white font-semibold">Pilihan Komputer</span>
               <img
                 src={getFruitImage(inputCom)}
                 alt=""
                 width="50"
+                className="mt-4 mx-auto"
                 height="50"
               />
             </div>
@@ -141,6 +148,7 @@ export default function Hero() {
                 type="number"
                 name="money"
                 placeholder=" "
+                required
                 onChange={(event) => setInputNominal(event.target.value)}
                 className="pt-3 pb-2 pl-5 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
               />
@@ -155,12 +163,21 @@ export default function Hero() {
               </label>
             </div>
             <span className="text-sm text-red-600 ">
-              Tombol warna merah berarti taruhannya kurang
+              warna merah berarti taruhannya kurang / cash tidak cukup
             </span>
+            {cash === 0 && (
+              <div className="text-red-600 font-semibold text-center">
+                Cash habis! Silakan tambahkan saldo untuk bermain lagi.
+              </div>
+            )}
             <button
               id="button"
               type="submit"
-              disabled={InputNominal < MinimumNominal}
+              disabled={
+                !inputUser ||
+                inputNominal < minimumNominal ||
+                inputNominal > cash
+              }
               className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blue-500 hover:bg-pink-600 hover:shadow-lg focus:outline-none disabled:bg-red-600"
             >
               Main
