@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import anggur from "./img/anggur.png";
 import jeruk from "./img/jeruk.png";
 import semangka from "./img/semangka.png";
@@ -9,6 +9,7 @@ import Toast from "./toast";
 import Bubble from "./bubble";
 export default function Hero() {
   const [fruitsRandom, setFruitsRandom] = useState([]);
+  const formRef = useRef(null);
   const [inputUser, setInputUser] = useState(null);
   const [inputNominal, setInputNominal] = useState(0);
   const [inputCom, setInputCom] = useState("");
@@ -35,7 +36,7 @@ export default function Hero() {
     } else {
       alert("Taruhan harus lebih besar atau sama dengan " + minimumNominal);
     }
-
+    formRef.current.reset();
     // Reset inputUser setelah selesai bermain
   };
 
@@ -194,7 +195,7 @@ export default function Hero() {
               REWARD
             </a>
           </h1>
-          <form id="form" novalidate onSubmit={play}>
+          <form id="form" novalidate onSubmit={play} ref={formRef}>
             <div className="relative z-0 w-full mb-5 mt-10">
               <input
                 type="inputUser"
