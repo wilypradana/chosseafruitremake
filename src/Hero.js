@@ -47,6 +47,32 @@ export default function Hero() {
       setCash((prevCash) => prevCash - parseInt(inputNominal));
       setPoint((prevPoint) => prevPoint + 20);
     }
+
+    const timer = setTimeout(() => {
+      setInputUser("");
+      setInputCom("");
+      setInputNominal(0);
+    }, 1000);
+    // Reset inputCom AFTER updating cash and point
+    // setInputCom("");
+    // setInputUser("");
+    // Reset inputCom AFTER updating cash and point
+    // setTimeout(() => {
+    //   setInputCom("");
+    //   setInputUser("");
+    // }, 1000);
+    // const timer = setTimeout(() => {
+    //   // Reset inputs after a delay
+    //   setInputCom("");
+    //   setInputUser("");
+    //   if (inputUser === inputCom) {
+    //     setCash((prevCash) => prevCash + parseInt(inputNominal));
+    //   } else {
+    //     // Ensure cash doesn't go below 0 after subtracting the bet amount
+    //     setCash((prevCash) => Math.max(prevCash - parseInt(inputNominal), 0));
+    //     setPoint((prevPoint) => prevPoint + 20);
+    //   }
+    // }, 1000);
     // Reset inputCom AFTER updating cash and point
     // setInputCom("");
     // setInputUser("");
@@ -68,13 +94,6 @@ export default function Hero() {
     //   }
     // }, 1000);
 
-    // // return () => clearTimeout(timer);
-    const timer = setTimeout(() => {
-      setInputUser("");
-      setInputCom("");
-      setInputNominal(0);
-    }, 1000);
-
     return () => {
       clearTimeout(timer);
     };
@@ -93,12 +112,20 @@ export default function Hero() {
   function getFruitImage(fruit) {
     switch (fruit) {
       case "anggur":
+      case "Anggur":
+      case "ANGGUR":
         return anggur;
       case "jeruk":
+      case "Jeruk":
+      case "JERUK":
         return jeruk;
       case "semangka":
+      case "Semangka":
+      case "SEMANGKA":
         return semangka;
       case "mangga":
+      case "Mangga":
+      case "MANGGA":
         return mangga;
       default:
         return Random; // jika tidak ada gambar yang di input
