@@ -6,6 +6,7 @@ import semangka from "./img/semangka.png";
 import mangga from "./img/mangga.png";
 import Random from "./img/default.jpg";
 import Toast from "./toast";
+import Bubble from "./bubble";
 export default function Hero() {
   const [fruitsRandom, setFruitsRandom] = useState([]);
   const [inputUser, setInputUser] = useState(null);
@@ -226,7 +227,7 @@ export default function Hero() {
           </form>
         </div>
       </div>
-
+      <Bubble />
       <section className="bg-white">
         <div className="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
           <nav className="flex flex-wrap justify-center -mx-5 -my-2">
