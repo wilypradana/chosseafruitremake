@@ -7,8 +7,6 @@ import mangga from "./img/mangga.png";
 import Random from "./img/default.jpg";
 
 export default function Hero() {
-  const [played, setPlayed] = useState(false);
-
   const [fruitsRandom, setFruitsRandom] = useState([]);
   const [inputUser, setInputUser] = useState(null);
   const [inputNominal, setInputNominal] = useState(0);
@@ -17,7 +15,7 @@ export default function Hero() {
   const [Point, setPoint] = useState(0);
   const minimumNominal = 5;
   const [cash, setCash] = useState(500);
-  const [Newcash, setNewCash] = useState(500);
+
   function shuffleArray(array) {
     // Fisher-Yates shuffle algorithm
     for (let i = array.length - 1; i > 0; i--) {
@@ -41,9 +39,8 @@ export default function Hero() {
   };
 
   useEffect(() => {
-    if (inputUser === inputCom && !played) {
+    if (inputUser === inputCom) {
       setCash((prevCash) => prevCash + parseInt(inputNominal));
-      setPlayed(true);
     } else {
       // Ensure cash doesn't go below 0 after subtracting the bet amount
       setCash((prevCash) => prevCash - parseInt(inputNominal));
@@ -71,27 +68,27 @@ export default function Hero() {
     // }, 1000);
 
     // // return () => clearTimeout(timer);
-    // const timer = setTimeout(() => {
-    //   setInputUser("");
-    //   setInputCom("");
-    // }, 1000);
-
-    // return () => {
-    //   clearTimeout(timer);
-    // };
-  }, [inputCom]);
-
-  useEffect(() => {
     const timer = setTimeout(() => {
       setInputUser("");
       setInputCom("");
-      setPlayed(false);
+      setInputNominal(0);
     }, 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [inputUser, inputCom]);
+  }, [inputCom]);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setInputUser("");
+  //     setInputCom("");
+  //   }, 1000);
+
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [inputUser, inputCom]);
   function getFruitImage(fruit) {
     switch (fruit) {
       case "anggur":
