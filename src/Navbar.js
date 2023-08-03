@@ -13,7 +13,9 @@ export default function Navbar({ cash, Point }) {
         </span>
       </div>
       <div className="bg-purple-800 flex items-center justify-between p-4">
-        <h1 className="font-semibold text-xs text-white">Hi username</h1>
+        <h1 className="font-semibold text-xs text-white">
+          Hi user (akun demo)
+        </h1>
         <h1 className="font-semibold text-xs text-white">Your cash: {cash}</h1>
         <h1 className="font-semibold text-xs text-white">
           Your Point: {Point}

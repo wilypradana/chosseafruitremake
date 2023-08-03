@@ -5,7 +5,7 @@ import jeruk from "./img/jeruk.png";
 import semangka from "./img/semangka.png";
 import mangga from "./img/mangga.png";
 import Random from "./img/default.jpg";
-
+import Toast from "./toast";
 export default function Hero() {
   const [fruitsRandom, setFruitsRandom] = useState([]);
   const [inputUser, setInputUser] = useState(null);
@@ -153,6 +153,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
+      <Toast />
       <div className="bg-gray-100 p-0 sm:p-12">
         <div className="mx-auto max-w-md px-6 py-12 bg-white border-0 shadow-lg sm:rounded-3xl">
           <h1 className="text-xl font-bold mb-8">
@@ -237,7 +238,7 @@ export default function Hero() {
           </nav>
           <div className="flex justify-center mt-8 space-x-6">
             <a
-              href="https://facebook.com/wilypradana"
+              href="https://facebook.com/wilpradana"
               className="text-gray-400 hover:text-gray-500"
             >
               <span className="sr-only">Facebook</span>
