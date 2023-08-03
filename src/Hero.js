@@ -1,21 +1,23 @@
+import Navbar from "./Navbar";
+import { useState, useEffect } from "react";
 import anggur from "./img/anggur.png";
 import jeruk from "./img/jeruk.png";
 import semangka from "./img/semangka.png";
 import mangga from "./img/mangga.png";
 import Random from "./img/default.jpg";
 
-import Navbar from "./Navbar";
-
-import { useState } from "react";
-
 export default function Hero() {
+  const [played, setPlayed] = useState(false);
+
+  const [fruitsRandom, setFruitsRandom] = useState([]);
   const [inputUser, setInputUser] = useState(null);
   const [inputNominal, setInputNominal] = useState(0);
-  const [inputCom, setInputCom] = useState(null);
+  const [inputCom, setInputCom] = useState("");
   const fruits = ["anggur", "jeruk", "semangka", "mangga"];
   const [Point, setPoint] = useState(0);
   const minimumNominal = 5;
   const [cash, setCash] = useState(500);
+  const [Newcash, setNewCash] = useState(500);
   function shuffleArray(array) {
     // Fisher-Yates shuffle algorithm
     for (let i = array.length - 1; i > 0; i--) {
@@ -24,31 +26,72 @@ export default function Hero() {
     }
     return array;
   }
-  function play(event) {
+  const play = (event) => {
     event.preventDefault();
+
     if (inputNominal >= minimumNominal) {
-      if (!inputUser) {
-        alert("Masukkan pilihan buah sebelum melakukan taruhan.");
-        return;
-      }
-      const fruitsRandom = shuffleArray(fruits);
-      setInputCom(fruitsRandom[0]); // Set the inputCom to a random element from fruits
-      if (inputUser === inputCom) {
-        setCash((prevCash) => prevCash + inputNominal * 20);
-      } else {
-        // Ensure cash doesn't go below 0 after subtracting the bet amount
-        setCash((prevCash) => Math.max(prevCash - inputNominal * 2, 0));
-        setPoint((prevPoint) => prevPoint + 20);
-      }
-      setTimeout(() => {
-        setInputCom("");
-        setInputUser("");
-      }, 1000);
+      const newFruitsRandom = shuffleArray(fruits);
+      setFruitsRandom(newFruitsRandom); // Simpan fruitsRandom yang baru diacak
+      setInputCom(newFruitsRandom[0]); // Set the inputCom to a random element from fruits
     } else {
       alert("Taruhan harus lebih besar atau sama dengan " + minimumNominal);
     }
-  }
 
+    // Reset inputUser setelah selesai bermain
+  };
+
+  useEffect(() => {
+    if (inputUser === inputCom && !played) {
+      setCash((prevCash) => prevCash + parseInt(inputNominal));
+      setPlayed(true);
+    } else {
+      // Ensure cash doesn't go below 0 after subtracting the bet amount
+      setCash((prevCash) => prevCash - parseInt(inputNominal));
+      setPoint((prevPoint) => prevPoint + 20);
+    }
+    // Reset inputCom AFTER updating cash and point
+    // setInputCom("");
+    // setInputUser("");
+    // Reset inputCom AFTER updating cash and point
+    // setTimeout(() => {
+    //   setInputCom("");
+    //   setInputUser("");
+    // }, 1000);
+    // const timer = setTimeout(() => {
+    //   // Reset inputs after a delay
+    //   setInputCom("");
+    //   setInputUser("");
+    //   if (inputUser === inputCom) {
+    //     setCash((prevCash) => prevCash + parseInt(inputNominal));
+    //   } else {
+    //     // Ensure cash doesn't go below 0 after subtracting the bet amount
+    //     setCash((prevCash) => Math.max(prevCash - parseInt(inputNominal), 0));
+    //     setPoint((prevPoint) => prevPoint + 20);
+    //   }
+    // }, 1000);
+
+    // // return () => clearTimeout(timer);
+    // const timer = setTimeout(() => {
+    //   setInputUser("");
+    //   setInputCom("");
+    // }, 1000);
+
+    // return () => {
+    //   clearTimeout(timer);
+    // };
+  }, [inputCom]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setInputUser("");
+      setInputCom("");
+      setPlayed(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [inputUser, inputCom]);
   function getFruitImage(fruit) {
     switch (fruit) {
       case "anggur":
